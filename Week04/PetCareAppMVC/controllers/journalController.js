@@ -27,7 +27,10 @@ function listJournals(req, res) {
     }
 
     journalModel.getJournalsByPetAndOwner(userId, selectedPetId, (err2, journals) => {
-      if (err2) return res.send('Error loading journals');
+      if (err2) {
+        console.error('Error loading journals:', err2);
+        return res.status(500).send(`Error loading journals: ${err2.message}`);
+      }
 
       // Pet info always comes from the pets list
       const petInfo = pets.find(p => p.id == selectedPetId);
